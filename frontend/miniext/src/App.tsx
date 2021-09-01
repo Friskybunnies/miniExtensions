@@ -1,24 +1,31 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Data from './components/Data';
+import Logout from './components/Logout';
+import { useSelector } from 'react-redux';
+import { RootState } from './app/store';
+import { UserState } from './reducers/userReducer';
 
 function App() {
+  const userLogin = useSelector<RootState, UserState>(state => state.name);
+
+  const { studentName } = userLogin;
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="container">
+        <main>
+          {studentName !== '' ? (
+            <div>
+              <Logout></Logout>
+              <Data></Data>
+            </div>
+          ) : (
+              <Data></Data>
+            )
+          }
+        </main>
+      </div>
     </div>
   );
 }

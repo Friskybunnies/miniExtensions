@@ -1,0 +1,15 @@
+button {
+    margin-top: 8%;
+}
+
+.loginField {
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: -6vh;
+}
+
+input {
+    margin-left: 7vw;
+}
