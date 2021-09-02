@@ -6,6 +6,7 @@ import { updateInput } from '../actions/inputActions';
 import { RootState } from '../app/store';
 import { UserState } from '../reducers/userReducer';
 import { InputState } from '../reducers/inputReducer';
+import Card from './Card';
 
 export default function Data() {
     const dispatch = useDispatch();
@@ -31,9 +32,7 @@ export default function Data() {
                     <button type="submit">Log in</button>
                 </form>
             ) : (
-                    <>
-                        <h1>{studentName}</h1>
-                    </>
+                    <Card></Card>
                 )
             }
         </div>

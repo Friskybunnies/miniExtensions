@@ -1,0 +1,25 @@
+.cardContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.card {
+    border: solid 2px;
+    min-width: 35vw;
+    padding-left: 2%;
+    text-align: left;
+    margin: 1vw;
+}
+
+.card > div {
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+}
+
+#nameTitle {
+    font-weight: 700;
+}
+
+#studentsTitle {
+    font-weight: 700;
+}
