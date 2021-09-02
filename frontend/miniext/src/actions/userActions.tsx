@@ -5,7 +5,7 @@ import axios from 'axios';
 import { RootState } from '../app/store';
 
 var Airtable = require('airtable');
-var base = new Airtable({ apiKey: 'key0a3AdeXFrLdmew' }).base('app8ZbcPx7dkpOnP0'); // DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE
+var base = new Airtable({ apiKey: '' }).base('app8ZbcPx7dkpOnP0'); // DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE
 
 export const login = (name: string): ThunkAction<Promise<void>, RootState, unknown, AnyAction> =>
     async (dispatch: ThunkDispatch<RootState, unknown, AnyAction>): Promise<void> => {
@@ -22,7 +22,7 @@ export const login = (name: string): ThunkAction<Promise<void>, RootState, unkno
             const filterBy = `SEARCH("${name}", {Name} )`;
             const link = `${URL}${query}${filterBy}`;
 
-            const KEY = 'key0a3AdeXFrLdmew'; // DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE
+            const KEY = ''; // DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE
             const headers = {
                 headers: {
                     Authorization: `Bearer ${KEY}`
