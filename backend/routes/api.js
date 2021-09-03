@@ -10,7 +10,7 @@ const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
 
 router.get('/:name', async (req, res) => {
     try {
-        // Retrive entered student
+        // Retrieve entered student
         res.setHeader('Access-Control-Allow-Origin', '*');
         const URL = 'http://api.airtable.com/v0/app8ZbcPx7dkpOnP0/students';
         const query = '?filterByFormula=';
