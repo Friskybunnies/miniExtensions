@@ -6,7 +6,7 @@ import { RootState } from '../app/store';
 require('dotenv').config();
 
 var Airtable = require('airtable');
-var base = new Airtable({ apiKey: 'keycZXYSFT5HObej3' }).base('app8ZbcPx7dkpOnP0'); // ADD API KEY HERE
+var base = new Airtable({ apiKey: '' }).base('app8ZbcPx7dkpOnP0'); // ADD API KEY HERE
 
 export const login = (name: string): ThunkAction<Promise<void>, RootState, unknown, AnyAction> =>
     async (dispatch: ThunkDispatch<RootState, unknown, AnyAction>): Promise<void> => {
@@ -24,7 +24,7 @@ export const login = (name: string): ThunkAction<Promise<void>, RootState, unkno
             const filterBy = `SEARCH("${name}", {Name} )`;
             const link = `${URL}${query}${filterBy}`;
 
-            const KEY = 'keycZXYSFT5HObej3'; // ADD API KEY HERE
+            const KEY = ''; // ADD API KEY HERE
             const headers = {
                 headers: {
                     Authorization: `Bearer ${KEY}`
@@ -45,67 +45,62 @@ export const login = (name: string): ThunkAction<Promise<void>, RootState, unkno
 
             // Swap class codes for class names
             for (let i = 0; i < classes.length; i++) {
-                await base('Classes').find(classes[i], function (err: any, record: any) {
-                    if (err) { console.error(err); return; }
-                    classNames.push(record.fields.Name);
-                });
+                await base('Classes').find(classes[i])
+                    .then((record: any, err: any) => {
+                        if (err) { console.error(err); return; }
+                        classNames.push(record.fields.Name);
+                    });
             }
 
             // Retrieve other student codes per class associated to chosen student
             for (let i = 0; i < classes.length; i++) {
-                await base('Classes').find(classes[i], function (err: any, record: any) {
-                    if (err) { console.error(err); return; }
-                    studentIds.push(record.fields['Students']);
-                });
+                await base('Classes').find(classes[i])
+                    .then((record: any, err: any) => {
+                        if (err) { console.error(err); return; }
+                        studentIds.push(record.fields['Students']);
+                    });
             }
 
             // Associate other student codes to associated student names. Zip data to send to Reducer.
-            setTimeout(async function () {
-                for (let i = 0; i < studentIds.length; i++) {
-                    let newTempArr: Array<string> = [];
-                    for (let j = 0; j < studentIds[i].length; j++) {
-                        await base('Students').find(studentIds[i][j], function (err: any, record: any) {
+            for (let i = 0; i < studentIds.length; i++) {
+                let newTempArr: Array<string> = [];
+                for (let j = 0; j < studentIds[i].length; j++) {
+                    await base('Students').find(studentIds[i][j])
+                        .then((record: any, err: any) => {
                             if (err) { console.error(err); return; }
                             newTempArr.push(record.fields.Name);
                         });
-                    }
-                    otherStudents.push(newTempArr);
                 }
-            }, 500);
+                otherStudents.push(newTempArr);
+            }
 
-            setTimeout(function () {
-                for (let i = 0; i < classNames.length; i++) {
-                    let newTempArr: Array<any> = [];
-                    newTempArr.push(classNames[i]);
-                    for (let j = 0; j < otherStudents[i].length; j++) {
-                        newTempArr.push(otherStudents[i][j] + ", ");
-                    }
-                    zippedData.push(newTempArr);
+            for (let i = 0; i < classNames.length; i++) {
+                let newTempArr: Array<any> = [];
+                newTempArr.push(classNames[i]);
+                for (let j = 0; j < otherStudents[i].length; j++) {
+                    newTempArr.push(otherStudents[i][j] + ", ");
                 }
-            }, 1000);
+                zippedData.push(newTempArr);
+            }
 
-            setTimeout(function () {
-                console.log("Class names: ", classNames);
-                console.log("Records of other students by class:", studentIds);
-                console.log("Records of other student names:", otherStudents);
-                console.log("Zipped array:", zippedData);
+            console.log("Class names: ", classNames);
+            console.log("Records of other students by class:", studentIds);
+            console.log("Records of other student names:", otherStudents);
+            console.log("Zipped array:", zippedData);
 
-                const resultData = { zippedData: zippedData, name: name, loading: false };
+            const resultData = { zippedData: zippedData, name: name, loading: false };
 
-                dispatch({
-                    type: LOGIN,
-                    payload: resultData
-                });
-            }, 1500);
+            dispatch({
+                type: LOGIN,
+                payload: resultData
+            });
 
         } catch (err: any) {
             const resultData = { zippedData: [["Student name isn't associated to any classes", "No classmates in database for student name"]], name: "Error", loading: false };
-            setTimeout(function () {
-                dispatch({
-                    type: LOGIN,
-                    payload: resultData
-                });
-            }, 2000)
+            dispatch({
+                type: LOGIN,
+                payload: resultData
+            });
         }
     }
 
