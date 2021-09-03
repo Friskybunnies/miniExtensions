@@ -24,7 +24,7 @@ export const login = (name: string): ThunkAction<Promise<void>, RootState, unkno
                     type: LOGIN,
                     payload: resultData.data
                 });
-            }, 10000)
+            }, 1100)
 
         } catch (err: any) {
             dispatch({

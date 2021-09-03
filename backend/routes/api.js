@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
@@ -15,7 +17,7 @@ router.get('/:name', async (req, res) => {
         const filterBy = `SEARCH("${req.params.name}", {Name} )`;
         const link = `${URL}${query}${filterBy}`;
 
-        const KEY = 'keyQBIwRFhhHHR7A5'; // DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE
+        const KEY = process.env.AIRTABLE_API_KEY;
         const headers = {
             headers: {
                 Authorization: `Bearer ${KEY}`
@@ -52,7 +54,7 @@ router.get('/:name', async (req, res) => {
         }
 
         // Associate other student codes to associated student names. Zip data to send to Reducer.
-        setTimeout(async function () { // FIGURE OUT WAY ABOVE AWAIT ISN'T WORKING INSTEAD OF USING SETTIMEOUT
+        setTimeout(async function () {
             for (let i = 0; i < studentIds.length; i++) {
                 let newTempArr = [];
                 for (let j = 0; j < studentIds[i].length; j++) {
@@ -63,7 +65,7 @@ router.get('/:name', async (req, res) => {
                 }
                 otherStudents.push(newTempArr);
             }
-        }, 5000);
+        }, 700);
 
         setTimeout(function () {
             for (let i = 0; i < classNames.length; i++) {
@@ -74,18 +76,18 @@ router.get('/:name', async (req, res) => {
                 }
                 zippedData.push(newTempArr);
             }
-        }, 7000);
+        }, 1000);
 
-        setTimeout(function () { // FIGURE OUT WAY ABOVE AWAIT ISN'T WORKING INSTEAD OF USING SETTIMEOUT
+        setTimeout(function () {
             console.log("Class names: ", classNames);
             console.log("Records of other students by class:", studentIds);
             console.log("Records of other student names:", otherStudents);
             console.log("Zipped array:", zippedData);
 
-            resultData = { zippedData: zippedData, name: req.params.name.toString(), loading: false }; // Change "Jenny" back to name
+            resultData = { zippedData: zippedData, name: req.params.name.toString(), loading: false };
             console.log(resultData);
             res.send(resultData);
-        }, 9000);
+        }, 1010);
     } catch (err) {
         return res.send({ zippedData: [["Name/class do not exist in Airtable database", "Associated students do not exist in Airtable database"]], name: "Error", loading: false });
     }
