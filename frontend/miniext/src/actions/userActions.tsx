@@ -6,7 +6,7 @@ import { RootState } from '../app/store';
 require('dotenv').config();
 
 var Airtable = require('airtable');
-var base = new Airtable({ apiKey: '' }).base('app8ZbcPx7dkpOnP0'); // ADD API KEY HERE
+var base = new Airtable({ apiKey: 'keycZXYSFT5HObej3' }).base('app8ZbcPx7dkpOnP0'); // ADD API KEY HERE
 
 export const login = (name: string): ThunkAction<Promise<void>, RootState, unknown, AnyAction> =>
     async (dispatch: ThunkDispatch<RootState, unknown, AnyAction>): Promise<void> => {
@@ -24,7 +24,7 @@ export const login = (name: string): ThunkAction<Promise<void>, RootState, unkno
             const filterBy = `SEARCH("${name}", {Name} )`;
             const link = `${URL}${query}${filterBy}`;
 
-            const KEY = ''; // ADD API KEY HERE
+            const KEY = 'keycZXYSFT5HObej3'; // ADD API KEY HERE
             const headers = {
                 headers: {
                     Authorization: `Bearer ${KEY}`
@@ -99,7 +99,7 @@ export const login = (name: string): ThunkAction<Promise<void>, RootState, unkno
             }, 1500);
 
         } catch (err: any) {
-            const resultData = { zippedData: [["Name/class do not exist in Airtable database", "Associated students do not exist in Airtable database"]], name: "Error", loading: false };
+            const resultData = { zippedData: [["Student name isn't associated to any classes", "No classmates in database for student name"]], name: "Error", loading: false };
             setTimeout(function () {
                 dispatch({
                     type: LOGIN,

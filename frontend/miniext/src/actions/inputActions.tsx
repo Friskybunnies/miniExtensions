@@ -1,6 +1,6 @@
 import { ERROR, UPDATE_INPUT } from '../constants/constants';
 
-export const updateInput = (input: any) => (dispatch: any) => {
+export const updateInput = (input: string) => (dispatch: any) => {
     try {
         dispatch({
             type: UPDATE_INPUT,
