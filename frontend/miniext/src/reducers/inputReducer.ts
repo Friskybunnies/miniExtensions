@@ -1,4 +1,4 @@
-import { UPDATE_INPUT, ERROR } from '../constants/userConstants';
+import { UPDATE_INPUT, ERROR } from '../constants/constants';
 
 export interface InputState {
     input: string

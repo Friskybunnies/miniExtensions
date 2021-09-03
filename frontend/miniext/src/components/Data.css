@@ -1,12 +1,11 @@
 button {
-    margin-top: 8%;
+    margin-top: 1%;
 }
 
 .loginField {
     width: 100vw;
     display: flex;
     justify-content: center;
-    margin-bottom: -10vh;
 }
 
 input {

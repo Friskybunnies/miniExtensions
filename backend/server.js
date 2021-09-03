@@ -1,16 +1,12 @@
 require('dotenv').config();
+const express = require("express");
+const app = express();
+var cors = require('cors');
 
-const Airtable = require('airtable');
-const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
-    'app8ZbcPx7dkpOnP0'
-);
+app.use(cors());
 
-base('Students').select({
-    view: 'Grid view'
-}).firstPage(function (err, records) {
-    if (err) { console.error(err); return; }
-    records.forEach(function (record) {
-        console.log(record.get('Name'));
-        console.log(record.get('Classes'));
-    });
-});
+app.use(require('./routes'));
+
+const port = 5000;
+
+app.listen(port, () => console.log(`Server listening on port ${port}!`));

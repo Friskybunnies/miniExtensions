@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT, ERROR, REQUEST } from '../constants/userConstants';
+import { LOGIN, LOGOUT, ERROR, REQUEST } from '../constants/constants';
 
 export interface UserState {
     loading?: boolean

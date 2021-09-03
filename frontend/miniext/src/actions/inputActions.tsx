@@ -1,4 +1,4 @@
-import { ERROR, UPDATE_INPUT } from '../constants/userConstants';
+import { ERROR, UPDATE_INPUT } from '../constants/constants';
 
 export const updateInput = (input: any) => (dispatch: any) => {
     try {

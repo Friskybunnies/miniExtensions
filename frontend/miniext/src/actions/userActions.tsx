@@ -1,11 +1,12 @@
-import { ERROR, LOGIN, LOGOUT, REQUEST } from '../constants/userConstants';
+import { ERROR, LOGIN, LOGOUT, REQUEST } from '../constants/constants';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import axios from 'axios';
 import { RootState } from '../app/store';
+require('dotenv').config();
 
 var Airtable = require('airtable');
-var base = new Airtable({ apiKey: '' }).base('app8ZbcPx7dkpOnP0'); // DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE
+var base = new Airtable({ apiKey: '' }).base('app8ZbcPx7dkpOnP0'); // ADD API KEY HERE
 
 export const login = (name: string): ThunkAction<Promise<void>, RootState, unknown, AnyAction> =>
     async (dispatch: ThunkDispatch<RootState, unknown, AnyAction>): Promise<void> => {
@@ -16,13 +17,14 @@ export const login = (name: string): ThunkAction<Promise<void>, RootState, unkno
                 type: REQUEST,
                 payload: loadState
             })
+
             // Retrive entered student
             const URL = 'https://api.airtable.com/v0/app8ZbcPx7dkpOnP0/students';
             const query = '?filterByFormula=';
             const filterBy = `SEARCH("${name}", {Name} )`;
             const link = `${URL}${query}${filterBy}`;
 
-            const KEY = ''; // DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE
+            const KEY = ''; // ADD API KEY HERE
             const headers = {
                 headers: {
                     Authorization: `Bearer ${KEY}`
@@ -58,7 +60,7 @@ export const login = (name: string): ThunkAction<Promise<void>, RootState, unkno
             }
 
             // Associate other student codes to associated student names. Zip data to send to Reducer.
-            setTimeout(async function () { // FIGURE OUT WAY ABOVE AWAIT ISN'T WORKING INSTEAD OF USING SETTIMEOUT
+            setTimeout(async function () {
                 for (let i = 0; i < studentIds.length; i++) {
                     let newTempArr: Array<string> = [];
                     for (let j = 0; j < studentIds[i].length; j++) {
@@ -69,7 +71,7 @@ export const login = (name: string): ThunkAction<Promise<void>, RootState, unkno
                     }
                     otherStudents.push(newTempArr);
                 }
-            }, 5000);
+            }, 500);
 
             setTimeout(function () {
                 for (let i = 0; i < classNames.length; i++) {
@@ -80,9 +82,9 @@ export const login = (name: string): ThunkAction<Promise<void>, RootState, unkno
                     }
                     zippedData.push(newTempArr);
                 }
-            }, 7000);
+            }, 1000);
 
-            setTimeout(function () { // FIGURE OUT WAY ABOVE AWAIT ISN'T WORKING INSTEAD OF USING SETTIMEOUT
+            setTimeout(function () {
                 console.log("Class names: ", classNames);
                 console.log("Records of other students by class:", studentIds);
                 console.log("Records of other student names:", otherStudents);
@@ -94,13 +96,16 @@ export const login = (name: string): ThunkAction<Promise<void>, RootState, unkno
                     type: LOGIN,
                     payload: resultData
                 });
-            }, 9000);
+            }, 1500);
 
         } catch (err: any) {
-            dispatch({
-                type: ERROR,
-                payload: err.response && err.response.data.message ? err.response.data.message : err.message
-            })
+            const resultData = { zippedData: [["Name/class do not exist in Airtable database", "Associated students do not exist in Airtable database"]], name: "Error", loading: false };
+            setTimeout(function () {
+                dispatch({
+                    type: LOGIN,
+                    payload: resultData
+                });
+            }, 2000)
         }
     }
 
