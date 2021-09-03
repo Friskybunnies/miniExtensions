@@ -6,7 +6,7 @@ import { RootState } from '../app/store';
 require('dotenv').config();
 
 var Airtable = require('airtable');
-var base = new Airtable({ apiKey: '' }).base('app8ZbcPx7dkpOnP0'); // ADD API KEY HERE
+var base = new Airtable({ apiKey: 'keycChvYAHZkoEeh6' }).base('app8ZbcPx7dkpOnP0'); // ADD API KEY HERE
 
 export const login = (name: string): ThunkAction<Promise<void>, RootState, unknown, AnyAction> =>
     async (dispatch: ThunkDispatch<RootState, unknown, AnyAction>): Promise<void> => {
@@ -24,7 +24,7 @@ export const login = (name: string): ThunkAction<Promise<void>, RootState, unkno
             const filterBy = `SEARCH("${name}", {Name} )`;
             const link = `${URL}${query}${filterBy}`;
 
-            const KEY = ''; // ADD API KEY HERE
+            const KEY = 'keycChvYAHZkoEeh6'; // ADD API KEY HERE
             const headers = {
                 headers: {
                     Authorization: `Bearer ${KEY}`
